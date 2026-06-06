@@ -4,7 +4,7 @@ import Controls from "./components/Controls";
 import Settings from "./components/Settings";
 import { useTimerStore } from "./store/useTimerStore";
 import { useTheme } from "./hooks/useTheme";
-import { Pin, PinOff, Settings as SettingsIcon, Sun, Moon, Download } from "lucide-react";
+import { Pin, PinOff, Settings as SettingsIcon, Sun, Moon, Download, ChevronDown } from "lucide-react";
 
 export default function App() {
   const [isOnTop, setIsOnTop] = useState(false);
@@ -120,11 +120,27 @@ export default function App() {
       ) : null}
 
       {/* ── Main content ── */}
-      <div className="flex-1 flex flex-col items-center justify-center gap-8">
+      <div className="flex-1 flex flex-col items-center justify-center gap-3">
         <h1 className="text-lg font-medium text-gray-400 dark:text-gray-500 tracking-widest uppercase">
           番茄时钟
         </h1>
+
+        {/* Connecting arrow: title → timer */}
+        <ChevronDown
+          size={18}
+          strokeWidth={2}
+          className="text-gray-200 dark:text-gray-800 -mt-1"
+        />
+
         <Timer />
+
+        {/* Connecting arrow: timer → controls */}
+        <ChevronDown
+          size={18}
+          strokeWidth={2}
+          className="text-gray-200 dark:text-gray-800 -mt-1"
+        />
+
         <Controls />
       </div>
 
