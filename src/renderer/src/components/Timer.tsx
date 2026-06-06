@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useTimerStore, type TimerMode } from "@/store/useTimerStore";
 import { useTick } from "@/hooks/useTick";
-import CycleFlow from "./CycleFlow";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -13,22 +12,19 @@ const MODE_LABELS: Record<TimerMode, string> = {
   longBreak: "长休息",
 };
 
-const MODE_ACCENT: Record<TimerMode, { ring: string; fill: string; glow: string; bg: string }> = {
+const MODE_ACCENT: Record<TimerMode, { ring: string; glow: string; bg: string }> = {
   focus: {
     ring: "stroke-tomato-500",
-    fill: "fill-tomato-500",
     glow: "drop-shadow-[0_0_8px_rgba(239,68,68,0.4)]",
     bg: "from-tomato-50 dark:from-tomato-600/10 to-transparent",
   },
   shortBreak: {
     ring: "stroke-emerald-500 dark:stroke-emerald-400",
-    fill: "fill-emerald-500 dark:fill-emerald-400",
     glow: "drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]",
     bg: "from-emerald-50 dark:from-emerald-600/10 to-transparent",
   },
   longBreak: {
     ring: "stroke-sky-500 dark:stroke-sky-400",
-    fill: "fill-sky-500 dark:fill-sky-400",
     glow: "drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]",
     bg: "from-sky-50 dark:from-sky-600/10 to-transparent",
   },
@@ -111,15 +107,9 @@ export default function Timer() {
   const accent = MODE_ACCENT[mode];
   const dashOffset = RING_CIRCUMFERENCE * (1 - progress);
 
-  // Arrow tip at the end of the progress arc (SVG coordinates, before CSS rotation)
-  const arrowAngle = progress * 2 * Math.PI;
-  const arrowX = 100 + RING_R * Math.cos(arrowAngle);
-  const arrowY = 100 + RING_R * Math.sin(arrowAngle);
-  const arrowRotation = progress * 360 + 90;
-
   return (
     <div
-      className={`flex flex-col items-center justify-center gap-6 bg-gradient-to-b ${accent.bg} rounded-3xl px-8 py-8 mx-4 transition-colors duration-300`}
+      className={`flex flex-col items-center justify-center gap-8 bg-gradient-to-b ${accent.bg} rounded-3xl px-8 py-10 mx-4 transition-colors duration-300`}
     >
       {/* Mode tabs */}
       <div className="flex gap-1 bg-gray-100 dark:bg-gray-800/60 rounded-xl p-1 transition-colors duration-300">
@@ -138,7 +128,7 @@ export default function Timer() {
         ))}
       </div>
 
-      {/* Circular progress + time + arrow tip */}
+      {/* Circular progress + time */}
       <div className="relative flex items-center justify-center">
         <svg
           className={`w-56 h-56 -rotate-90 ${accent.glow}`}
@@ -153,7 +143,7 @@ export default function Timer() {
             strokeWidth="6"
             className="stroke-gray-200 dark:stroke-gray-800"
           />
-          {/* Progress arc */}
+          {/* Progress */}
           <circle
             cx="100"
             cy="100"
@@ -168,33 +158,8 @@ export default function Timer() {
               transition: "stroke 0.5s ease",
             }}
           />
-          {/* Arrow tip at the end of the progress arc */}
-          {progress > 0.02 && (
-            <g transform={`translate(${arrowX}, ${arrowY}) rotate(${arrowRotation})`}>
-              {/* Shadow glow */}
-              <polygon
-                points="-5,-4 6,0 -5,4"
-                className={accent.fill}
-                opacity="0.3"
-                style={{ filter: "blur(3px)" }}
-              />
-              {/* Solid arrow */}
-              <polygon
-                points="-4,-3.5 5,0 -4,3.5"
-                className={`${accent.fill} transition-[fill] duration-500`}
-              />
-            </g>
-          )}
-          {/* Small dot at the start (top center) to mark origin */}
-          <circle
-            cx={100 + RING_R}
-            cy="100"
-            r="3"
-            className="fill-gray-300 dark:fill-gray-700"
-          />
         </svg>
 
-        {/* Time readout */}
         <div className="absolute flex flex-col items-center gap-1">
           <span className="text-6xl font-light tracking-wider text-gray-900 dark:text-white tabular-nums font-mono transition-colors duration-300">
             {formatTime(timeLeft)}
@@ -216,9 +181,6 @@ export default function Timer() {
         <span className="text-gray-200 dark:text-gray-700">|</span>
         <span>今日 {todayCount} 个番茄</span>
       </div>
-
-      {/* Cycle flow indicator */}
-      <CycleFlow />
     </div>
   );
 }

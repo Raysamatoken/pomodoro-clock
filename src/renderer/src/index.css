@@ -56,28 +56,6 @@
            transition-all duration-150;
   }
 
-  /* ---- Cycle flow nodes ---- */
-  .cycle-node {
-    @apply w-6 h-6 rounded-full flex items-center justify-center
-           text-[10px] font-semibold leading-none
-           transition-all duration-300;
-  }
-
-  .cycle-node-done {
-    @apply bg-tomato-500 text-white;
-  }
-
-  .cycle-node-active {
-    @apply bg-tomato-400 text-white
-           ring-2 ring-tomato-200 dark:ring-tomato-800
-           animate-pulse;
-  }
-
-  .cycle-node-idle {
-    @apply bg-gray-100 text-gray-400
-           dark:bg-gray-800 dark:text-gray-600;
-  }
-
   /* ---- Stepper buttons (settings) ---- */
   .stepper-btn {
     @apply w-8 h-8 rounded-full
