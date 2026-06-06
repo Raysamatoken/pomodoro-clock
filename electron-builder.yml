@@ -1,0 +1,57 @@
+appId: com.pomodoro-clock.app
+productName: "Pomodoro Clock"
+copyright: "Copyright © 2026"
+
+directories:
+  output: dist
+  buildResources: resources
+
+files:
+  - out/**/*
+
+asar: true
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: resources/icon.ico
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  allowElevation: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "Pomodoro Clock"
+  installerIcon: resources/icon.ico
+  uninstallerIcon: resources/icon.ico
+  installerHeaderIcon: resources/icon.ico
+  unicode: true
+
+mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+  icon: resources/icon.png
+  category: public.app-category.productivity
+  hardenedRuntime: true
+  gatekeeperAssess: false
+
+dmg:
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+
+publish:
+  provider: github
+  owner: YOUR_GITHUB_USERNAME
+  repo: pomodoro-clock
